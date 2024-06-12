@@ -1,47 +1,51 @@
 // src/components/Dashboard.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Dashboard.css";
 import Posts from "./Posts";
+import PostDetails from "./PostDetails";
+import EditForm from "./EditForm";
 
 const Dashboard = () => {
-  const [posts, setPosts] = useState([
-    { id: 111, title: "Happiness", author: "John Cena" },
-    { id: 112, title: "Success", author: "Dwayne Johnson" },
-    { id: 113, title: "Motivation", author: "Bruce Lee" },
-  ]);
+  const [editable, setEditable] = useState(false);
+  const [dbUpdateFlag, setDbUpdateFlag] = useState(false);
 
-  const [newTitle, setNewTitle] = useState("");
-
-  const handleTitleChange = (e) => {
-    setNewTitle(e.target.value);
+  const [selectedPost, setSelectedPost] = useState({
+    id: 111,
+    title: "Happiness",
+    author: "John Cena",
+    content: "",
+  });
+  const changeFlag = () => {
+    setDbUpdateFlag(!dbUpdateFlag);
   };
 
-  const updateFirstPostTitle = () => {
-    const updatedPosts = posts.map((post, index) => {
-      if (index === 0) {
-        return { ...post, title: newTitle };
-      }
-      return post;
-    });
-    setPosts(updatedPosts);
+  const onPostClick = (post) => {
+    setSelectedPost(post);
   };
 
   return (
-    <div className='dashboard'>
-      <h1 className='dashboard-title'>Dashboard</h1>
-      <div className='dashboard-controls'>
-        <input
-          type='text'
-          value={newTitle}
-          onChange={handleTitleChange}
-          placeholder='New title for the first post'
-        />
-        <button onClick={updateFirstPostTitle}>Change Title</button>
+    <>
+      <div className='dashboard'>
+        <h1 className='dashboard-title'>Dashboard</h1>
+
+        <div className='dashboard-cards'>
+          <Posts onPostClick={onPostClick} dbUpdateFlag={dbUpdateFlag} />
+        </div>
+        {editable ? (
+          <EditForm
+            selectedPost={selectedPost}
+            setEditable={setEditable}
+            changeDbFlag={changeFlag}
+          ></EditForm>
+        ) : (
+          <PostDetails
+            selectedPost={selectedPost}
+            setEditable={setEditable}
+            changeDbFlag={changeFlag}
+          ></PostDetails>
+        )}
       </div>
-      <div className='dashboard-cards'>
-        <Posts posts={posts} />
-      </div>
-    </div>
+    </>
   );
 };
 

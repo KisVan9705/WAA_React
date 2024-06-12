@@ -1,10 +1,9 @@
-// src/components/Post.js
 import React from "react";
-import "../css/Post.css"; // Import the CSS file for styling
+import "../css/Post.css";
 
-const Post = ({ id, title, author }) => {
+const Post = ({ id, title, author, post, onPostClick }) => {
   return (
-    <div className='post'>
+    <div className='post' onClick={() => onPostClick(post)}>
       <h2 className='post-title'>{title}</h2>
       <p className='post-author'>Author: {author}</p>
       <p className='post-id'>ID: {id}</p>
