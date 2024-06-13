@@ -4,8 +4,10 @@ import "../css/Dashboard.css";
 import Posts from "./Posts";
 import PostDetails from "./PostDetails";
 import EditForm from "./EditForm";
+import AddPost from "./AddPost";
 
 const Dashboard = () => {
+  const [addPostFlag, setAddPostFlag] = useState(false);
   const [editable, setEditable] = useState(false);
   const [dbUpdateFlag, setDbUpdateFlag] = useState(false);
 
@@ -23,8 +25,21 @@ const Dashboard = () => {
     setSelectedPost(post);
   };
 
+  const changeAddPostFlag = () => {
+    setAddPostFlag(!addPostFlag);
+  };
+
   return (
     <>
+      <button onClick={changeAddPostFlag}>
+        {!addPostFlag ? "Add Post" : "Collapse"}
+      </button>
+      {addPostFlag ? (
+        <AddPost
+          changeDbFlag={changeFlag}
+          changeAddPostFlag={changeAddPostFlag}
+        ></AddPost>
+      ) : null}
       <div className='dashboard'>
         <h1 className='dashboard-title'>Dashboard</h1>
 
@@ -36,6 +51,7 @@ const Dashboard = () => {
             selectedPost={selectedPost}
             setEditable={setEditable}
             changeDbFlag={changeFlag}
+            dbUpdateFlag={dbUpdateFlag}
           ></EditForm>
         ) : (
           <PostDetails
