@@ -1,68 +1,70 @@
 // src/components/Dashboard.js
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../css/Dashboard.css";
 import Posts from "./Posts";
 import PostDetails from "./PostDetails";
 import EditForm from "./EditForm";
 import AddPost from "./AddPost";
+import { PostContext, PostProvider } from "../context/PostContext";
 
 const Dashboard = () => {
-  const [addPostFlag, setAddPostFlag] = useState(false);
-  const [editable, setEditable] = useState(false);
-  const [dbUpdateFlag, setDbUpdateFlag] = useState(false);
+  const {
+    addPostFlag,
+    setAddPostFlag,
+    editable,
+    setEditable,
+    dbUpdateFlag,
+    selectedPost,
+    changeDbFlag,
+    changeAddPostFlag,
+    setSelectedPost,
+    onPostClick,
+  } = useContext(PostContext);
 
-  const [selectedPost, setSelectedPost] = useState({
-    id: 111,
-    title: "Happiness",
-    author: "John Cena",
-    content: "",
-  });
-  const changeFlag = () => {
-    setDbUpdateFlag(!dbUpdateFlag);
-  };
+  // const [addPostFlag, setAddPostFlag] = useState(false);
+  // const [editable, setEditable] = useState(false);
+  // const [dbUpdateFlag, setDbUpdateFlag] = useState(false);
 
-  const onPostClick = (post) => {
-    setSelectedPost(post);
-  };
+  // const [selectedPost, setSelectedPost] = useState({
+  //   id: 111,
+  //   title: "Happiness",
+  //   author: "John Cena",
+  //   content: "",
+  // });
+  //
+  // const changeFlag = () => {
+  //   setDbUpdateFlag(!dbUpdateFlag);
+  // };
 
-  const changeAddPostFlag = () => {
-    setAddPostFlag(!addPostFlag);
-  };
+  // const changeAddPostFlag = () => {
+  //   setAddPostFlag(!addPostFlag);
+  // };
+
+  // const onPostClick = (post) => {
+  //   setSelectedPost(post);
+  // };
 
   return (
     <>
       <button onClick={changeAddPostFlag}>
         {!addPostFlag ? "Add Post" : "Collapse"}
       </button>
-      {addPostFlag ? (
-        <AddPost
-          changeDbFlag={changeFlag}
-          changeAddPostFlag={changeAddPostFlag}
-        ></AddPost>
-      ) : null}
+      {addPostFlag ? <AddPost></AddPost> : null}
       <div className='dashboard'>
         <h1 className='dashboard-title'>Dashboard</h1>
-
         <div className='dashboard-cards'>
-          <Posts onPostClick={onPostClick} dbUpdateFlag={dbUpdateFlag} />
+          <Posts />
         </div>
-        {editable ? (
-          <EditForm
-            selectedPost={selectedPost}
-            setEditable={setEditable}
-            changeDbFlag={changeFlag}
-            dbUpdateFlag={dbUpdateFlag}
-          ></EditForm>
-        ) : (
-          <PostDetails
-            selectedPost={selectedPost}
-            setEditable={setEditable}
-            changeDbFlag={changeFlag}
-          ></PostDetails>
-        )}
+        {editable ? <EditForm /> : <PostDetails />}
       </div>
     </>
   );
 };
+
+// const DashboardWrapper = () => (
+//   <PostProvider>
+//     <Dashboard />
+//   </PostProvider>
+// );
 
 export default Dashboard;

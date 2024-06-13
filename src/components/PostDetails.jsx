@@ -1,10 +1,13 @@
 // src/components/PostDetails.js
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { PostContext } from "../context/PostContext";
 
-const PostDetails = ({ selectedPost, setEditable, changeDbFlag }) => {
-  const { id } = selectedPost;
-  console.log(id);
+const PostDetails = ({}) => {
+  // const { id } = selectedPost;
+  // console.log(id);
+
+  const { selectedPost, setEditable, changeDbFlag } = useContext(PostContext);
 
   const [postDetails, setPostDetails] = useState(selectedPost);
 

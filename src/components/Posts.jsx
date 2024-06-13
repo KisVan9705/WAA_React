@@ -1,19 +1,20 @@
-// src/components/Posts.js
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Post from "./Post";
 import axios from "axios";
+import { PostContext } from "../context/PostContext";
 
-const Posts = ({ onPostClick, dbUpdateFlag }) => {
+const Posts = () => {
   const [posts, setPosts] = useState([
-    { id: 111, title: "Happiness", author: "John Cena" },
-    { id: 112, title: "Success", author: "Dwayne Johnson" },
-    { id: 113, title: "Motivation", author: "Bruce Lee" },
-    { id: 114, title: "Courage", author: "Broc Lee" },
+    // { id: 111, title: "Happiness", author: "John Cena" },
+    // { id: 112, title: "Success", author: "Dwayne Johnson" },
+    // { id: 113, title: "Motivation", author: "Bruce Lee" },
+    // { id: 114, title: "Courage", author: "Broc Lee" },
   ]);
+
+  const { onPostClick, dbUpdateFlag } = useContext(PostContext);
 
   const fetchPosts = async () => {
     await axios
-      // .get("http://localhost:8080/api/v1/users/2/posts")
       .get("http://localhost:8080/api/v1/posts")
       .then((response) => {
         const sortedData = response.data.sort((a, b) => a.id - b.id);
@@ -31,8 +32,6 @@ const Posts = ({ onPostClick, dbUpdateFlag }) => {
       <div className='row'>
         {posts.map((post) => (
           <div className='col' key={post.id}>
-            {" "}
-            {/* Add a unique key for each card */}
             <Post
               post={post}
               onPostClick={onPostClick}

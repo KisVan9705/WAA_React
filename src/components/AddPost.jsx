@@ -1,30 +1,25 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useRef } from "react";
+import { PostContext } from "../context/PostContext";
 
-const AddPost = (props) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [content, setContent] = useState("");
+const AddPost = () => {
+  const { changeAddPostFlag, changeDbFlag } = useContext(PostContext);
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleAuthorChange = (e) => {
-    setAuthor(e.target.value);
-  };
-
-  const handleContentChange = (e) => {
-    setContent(e.target.value);
-  };
+  const titleRef = useRef();
+  const authorRef = useRef();
+  const contentRef = useRef();
 
   const publishPost = () => {
-    const updatePost = { title, author, content };
+    const updatePost = {
+      title: titleRef.current.value,
+      author: authorRef.current.value,
+      content: contentRef.current.value,
+    };
     axios
       .post(`http://localhost:8080/api/v1/posts`, updatePost)
       .then((response) => {
-        props.changeDbFlag();
-        props.changeAddPostFlag();
+        changeDbFlag();
+        changeAddPostFlag();
       })
       .catch((error) => console.log(error.message));
   };
@@ -37,30 +32,15 @@ const AddPost = (props) => {
             <h2>Add Post</h2>
           </div>
           <label htmlFor='Title'>Title:</label>
-          <input
-            type='text'
-            value={title}
-            placeholder='Enter Title'
-            onChange={handleTitleChange}
-          />
+          <input type='text' ref={titleRef} placeholder='Enter Title' />
           <label htmlFor='Author'>Author:</label>
-          <input
-            type='text'
-            value={author}
-            placeholder='Enter Author'
-            onChange={handleAuthorChange}
-          />
+          <input type='text' ref={authorRef} placeholder='Enter Author' />
           <label htmlFor='Content'>Content:</label>
-          <input
-            type='text'
-            value={content}
-            placeholder='Enter Author'
-            onChange={handleContentChange}
-          />
+          <input type='text' ref={contentRef} placeholder='Enter Content' />
           <div>
             <button
               type='button'
-              className='btn btn-primary me-2 mt-2 '
+              className='btn btn-primary me-2 mt-2'
               onClick={publishPost}
             >
               Publish
