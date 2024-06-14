@@ -2,10 +2,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { PostContext } from "../context/PostContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PostDetails = ({}) => {
-  // const { id } = selectedPost;
-  // console.log(id);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const { selectedPost, setEditable, changeDbFlag } = useContext(PostContext);
 
@@ -13,7 +14,7 @@ const PostDetails = ({}) => {
 
   const fetchSelectedPost = async () => {
     await axios
-      .get(`http://localhost:8080/api/v1/posts/${selectedPost.id}`)
+      .get(`http://localhost:8080/api/v1/posts/${id}`)
       .then((response) => setPostDetails(response.data))
       .catch((error) => console.log(error.message));
   };
@@ -26,7 +27,7 @@ const PostDetails = ({}) => {
   //   const history = useNavigate();
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:8080/api/v1/posts/${selectedPost.id}`)
+      .delete(`http://localhost:8080/api/v1/posts/${id}`)
       .then(() => {
         // const updatedPosts = posts.filter((p) => p.id !== post.id);
         // setPosts(updatedPosts);
@@ -62,7 +63,7 @@ const PostDetails = ({}) => {
           <button
             type='button'
             className='btn btn-primary me-2'
-            onClick={() => setEditable(true)}
+            onClick={() => navigate(`/post/${id}/edit`)}
           >
             Edit
           </button>

@@ -6,6 +6,7 @@ import PostDetails from "./PostDetails";
 import EditForm from "./EditForm";
 import AddPost from "./AddPost";
 import { PostContext, PostProvider } from "../context/PostContext";
+import PageRoutes from "../routes/PageRoutes";
 
 const Dashboard = () => {
   const {
@@ -55,7 +56,8 @@ const Dashboard = () => {
         <div className='dashboard-cards'>
           <Posts />
         </div>
-        {editable ? <EditForm /> : <PostDetails />}
+
+        {/* {editable ? <EditForm /> : <PostDetails />} */}
       </div>
     </>
   );

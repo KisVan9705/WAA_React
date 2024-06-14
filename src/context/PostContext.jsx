@@ -24,6 +24,7 @@ export const PostProvider = ({ children }) => {
 
   const onPostClick = (post) => {
     setSelectedPost(post);
+    console.log("post clicked", post.id);
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { PostContext } from "../context/PostContext";
+import { useNavigate } from "react-router-dom";
 
 const EditForm = () => {
   const { selectedPost, setEditable, changeDbFlag } = useContext(PostContext);
@@ -22,14 +23,26 @@ const EditForm = () => {
       .catch((error) => console.log(error.message));
   };
 
+  const navigate = useNavigate();
   return (
     <>
-      <label htmlFor='Title'>Title:</label>
-      <input type='text' value={title} onChange={handleTitleChange} />
-      <label htmlFor='Author'>Author:</label>
-      <input type='text' value={author} onChange={handleAuthorChange} />
-      <button onClick={handleSave}>Save</button>
-      <button onClick={() => setEditable(false)}>Back</button>
+      <div className='container mt-5'>
+        <div className='card'>
+          <div className='card-header'>
+            <h2>Edit Form</h2>
+          </div>
+          <div className='card-body'>
+            <div className='mb-3'>
+              <label htmlFor='Title'>Title:</label>
+              <input type='text' value={title} onChange={handleTitleChange} />
+              <label htmlFor='Author'>Author:</label>
+              <input type='text' value={author} onChange={handleAuthorChange} />
+              <button onClick={handleSave}>Save</button>
+              <button onClick={() => navigate(-1)}>Back</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
